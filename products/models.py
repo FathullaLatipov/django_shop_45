@@ -31,6 +31,8 @@ class ProductModel(models.Model):
         verbose_name = 'Продукт'
         verbose_name_plural = 'Продукты'
 
+class CartModel(models.Model):
+    pass
 
 # class Cart()
 # user_id

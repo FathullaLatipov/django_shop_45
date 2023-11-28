@@ -20,7 +20,7 @@ class ProductModel(models.Model):
     product_price = models.FloatField()
     product_description = models.TextField()
     product_amount = models.IntegerField()
-    product_image = models.ImageField(upload_to='media')
+    product_image = models.ImageField(upload_to='products')
     product_category = models.ForeignKey(CategoryModel, on_delete=models.CASCADE)
     product_created_at = models.DateTimeField(auto_now_add=True)
 
@@ -31,11 +31,16 @@ class ProductModel(models.Model):
         verbose_name = 'Продукт'
         verbose_name_plural = 'Продукты'
 
-class CartModel(models.Model):
-    pass
 
-# class Cart()
-# user_id
-# user_product
-# user_product_quantity
-# user_add_date
+class CartModel(models.Model):
+    user_id = models.IntegerField()
+    user_product = models.ForeignKey(ProductModel, on_delete=models.CASCADE)
+    user_product_quantity = models.IntegerField()
+    user_add_date = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return str(self.user_id)
+
+    class Meta:
+        verbose_name = 'Корзина'
+        verbose_name_plural = 'Корзины'

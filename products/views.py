@@ -65,7 +65,7 @@ def add_products_to_user_cart(request, pk):
                                      user_product=checker,
                                      user_product_quantity=int(request.POST.get('pr_count'))
                                      ).save()
-            return redirect('/')
+            return redirect('/user_cart')
         else:
             return redirect(f'product/{checker.pk}')
 
@@ -74,14 +74,24 @@ def user_cart(request):
     cart = CartModel.objects.filter(user_id=request.user.id)
 
     if request.method == 'POST':
-        main_text = 'Новый заказ'
+        main_text = 'Новый заказ\n'
 
         for i in cart:
             main_text += f'Товар: {i.user_product}\n' \
-                         f'Кол-во: {i.user_product_quantity}'
+                         f'Кол-во: {i.user_product_quantity}\n' \
+                         f'Пользователь: {i.user_id}\n' \
+                         f'Цена: {i.user_product.product_price}\n'
             bot.send_message(575148251, main_text)
             cart.delete()
             return redirect('/')
 
     else:
         return render(request, 'cart.html', {'cart': cart})
+
+
+def delete_user_cart(request, pk):
+    product_delete = ProductModel.object.get(pk=pk)
+
+    CartModel.objects.filter(user_id=request.user.id, user_product=product_delete).delete()
+
+    return redirect('/user_cart')

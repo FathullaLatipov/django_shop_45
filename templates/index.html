@@ -64,7 +64,7 @@
                             <a href="{% url 'login' %}"><i class="fa fa-commenting-o"></i>Login</a>
                        {% endif %}
                     </li>
-                    <li id="cart" onclick="cartFunction()"><a href="#"><i class="fa fa-shopping-basket"></i>  Your Basket</a></li>
+                    <li id="cart" ><a href="{% url 'user_cart' %}"><i class="fa fa-shopping-basket"></i>  Your Basket</a></li>
                 </ul>
             </div>
             <!-- /.navbar-collapse -->
@@ -132,6 +132,11 @@
                         <h5 class="card-title">{{ i.product_title }}</h5>
                         <p class="card-text">{{ i.product_price }}</p>
                         <a href="/product/{{ i.pk }}" class="btn btn-primary">Перейти</a>
+                          <form action="/add_to_cart/{{i.pk}}" method="post" style="margin-left: 60%; margin-top: -19%;">
+                              {% csrf_token %}
+                              <input type="number" min="1" value="1" name="pr_count">
+                              <button class="btn btn-primary"><i class="fa fa-shopping-basket"></i></button>
+                          </form>
                       </div>
                     </div>
                 </div>
